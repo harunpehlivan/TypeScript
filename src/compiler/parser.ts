@@ -3831,9 +3831,20 @@ namespace ts {
             scanJsxIdentifier();
             const node = <JsxAttribute>createNode(SyntaxKind.JsxAttribute);
             node.name = parseIdentifierName();
-            if (parseOptional(SyntaxKind.EqualsToken)) {
+            //kill
+            /*if (parseOptional(SyntaxKind.EqualsToken)) {
                 switch (token()) {
                     case SyntaxKind.StringLiteral:
+                        node.initializer = parseLiteralNode();
+                        break;
+                    default:
+                        node.initializer = parseJsxExpression(/*inExpressionContext* / true);
+                        break;
+                }
+            }*/
+            if (token() === SyntaxKind.EqualsToken) {
+                switch (scanner.scanJsxAttributeValue()) {
+                    case SyntaxKind.JsxStringLiteral:
                         node.initializer = parseLiteralNode();
                         break;
                     default:

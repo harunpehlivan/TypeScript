@@ -27,6 +27,7 @@ namespace ts {
         reScanSlashToken(): SyntaxKind;
         reScanTemplateToken(): SyntaxKind;
         scanJsxIdentifier(): SyntaxKind;
+        scanJsxAttributeValue(): SyntaxKind;
         reScanJsxToken(): SyntaxKind;
         scanJsxToken(): SyntaxKind;
         scanJSDocToken(): SyntaxKind;
@@ -817,6 +818,7 @@ namespace ts {
             reScanSlashToken,
             reScanTemplateToken,
             scanJsxIdentifier,
+            scanJsxAttributeValue,
             reScanJsxToken,
             scanJsxToken,
             scanJSDocToken,
@@ -911,7 +913,8 @@ namespace ts {
             return value;
         }
 
-        function scanString(): string {
+        //neater
+        function scanString(allowEscapes: boolean = true): string {
             const quote = text.charCodeAt(pos);
             pos++;
             let result = "";
@@ -929,7 +932,7 @@ namespace ts {
                     pos++;
                     break;
                 }
-                if (ch === CharacterCodes.backslash) {
+                if (ch === CharacterCodes.backslash && allowEscapes) {
                     result += text.substring(start, pos);
                     result += scanEscapeSequence();
                     start = pos;
@@ -1735,6 +1738,18 @@ namespace ts {
                 tokenValue += text.substr(firstCharPosition, pos - firstCharPosition);
             }
             return token;
+        }
+
+        //neater
+        function scanJsxAttributeValue(): SyntaxKind {
+            switch (text.charCodeAt(pos)) {
+                case CharacterCodes.doubleQuote:
+                case CharacterCodes.singleQuote:
+                    tokenValue = scanString(/*allowEscapes*/ false);
+                    return token = SyntaxKind.StringLiteral;
+                default:
+                    return scan();
+            }
         }
 
         function scanJSDocToken(): SyntaxKind {

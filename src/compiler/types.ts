@@ -44,6 +44,8 @@ namespace ts {
         // Literals
         NumericLiteral,
         StringLiteral,
+        //neater
+        JsxStringLiteral,
         RegularExpressionLiteral,
         NoSubstitutionTemplateLiteral,
         // Pseudo-literals
@@ -853,6 +855,12 @@ namespace ts {
         _stringLiteralBrand: any;
         /* @internal */
         textSourceNode?: Identifier | StringLiteral; // Allows a StringLiteral to get its text from another node (used by transforms).
+    }
+
+    //neater
+    // @kind(SyntaxKind.JsxStringLiteral)
+    export interface JsxStringliteral extends LiteralExpression {
+        _jsxStringLiteralBrand: any;
     }
 
     // Note: 'brands' in our syntax nodes serve to give us a small amount of nominal typing.
