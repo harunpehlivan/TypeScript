@@ -140,7 +140,7 @@ namespace ts {
                 return createLiteral(true);
             }
             else if (node.kind === SyntaxKind.StringLiteral) {
-                return node;
+                return fooooooooooo(<StringLiteral>node);
             }
             else if (node.kind === SyntaxKind.JsxExpression) {
                 return visitJsxExpression(<JsxExpression>node);
@@ -150,9 +150,24 @@ namespace ts {
             }
         }
 
+        //neater
+        function fooooooooooo(node: StringLiteral) {
+            const text = //getLiteralText(node);
+            node.text;
+            return baaaaaaaaar(text); //but do *not* trim whitespace!
+        }
+
+        //TODO: tests for trimming whitespace!
+
+        //neater
         function visitJsxText(node: JsxText) {
             const text = getTextOfNode(node, /*includeTrivia*/ true);
-            let parts: Expression[];
+            return baaaaaaaaar(text);
+        }
+
+        //neater
+        function baaaaaaaaar(text: string) {
+            let parts: StringLiteral[];
             let firstNonWhitespace = 0;
             let lastNonWhitespace = -1;
 
@@ -205,6 +220,7 @@ namespace ts {
         /**
          * Aggregates two expressions by interpolating them with a whitespace literal.
          */
+        //this is silly! just get the text!
         function aggregateJsxTextParts(left: Expression, right: Expression) {
             return createAdd(createAdd(left, createLiteral(" ")), right);
         }

@@ -704,22 +704,22 @@ gulp.task("browserify", "Runs browserify on run.js to produce a file suitable fo
         .pipe(sourcemaps.init())
         .pipe(tsc(testProject))
         .pipe(through2.obj((file, enc, next) => {
-            const originalMap = file.sourceMap;
-            const prebundledContent = file.contents.toString();
+            //const originalMap = file.sourceMap;
+            //const prebundledContent = file.contents.toString();
             // Make paths absolute to help sorcery deal with all the terrible paths being thrown around
-            originalMap.sources = originalMap.sources.map(s => path.resolve("src", s));
+            //originalMap.sources = originalMap.sources.map(s => path.resolve("src", s));
             // intoStream (below) makes browserify think the input file is named this, so this is what it puts in the sourcemap
-            originalMap.file = "built/local/_stream_0.js";
+            //originalMap.file = "built/local/_stream_0.js";
 
             browserify(intoStream(file.contents), { debug: true })
                 .bundle((err, res) => {
                     // assumes file.contents is a Buffer
-                    const maps = JSON.parse(convertMap.fromSource(res.toString(), /*largeSource*/true).toJSON());
-                    delete maps.sourceRoot;
-                    maps.sources = maps.sources.map(s => path.resolve(s === "_stream_0.js" ? "built/local/_stream_0.js" : s));
+                    //const maps = JSON.parse(convertMap.fromSource(res.toString(), /*largeSource*/true).toJSON());
+                    //delete maps.sourceRoot;
+                    //maps.sources = maps.sources.map(s => path.resolve(s === "_stream_0.js" ? "built/local/_stream_0.js" : s));
                     // Strip browserify's inline comments away (could probably just let sorcery do this, but then we couldn't fix the paths)
-                    file.contents = new Buffer(convertMap.removeComments(res.toString()));
-                    const chain = sorcery.loadSync("built/local/bundle.js", {
+                    file.contents = new Buffer(res.toString());//convertMap.removeComments(res.toString()));
+                    /*const chain = sorcery.loadSync("built/local/bundle.js", {
                         content: {
                             "built/local/_stream_0.js": prebundledContent,
                             "built/local/bundle.js": file.contents.toString()
@@ -730,11 +730,11 @@ gulp.task("browserify", "Runs browserify on run.js to produce a file suitable fo
                         }
                     });
                     const finalMap = chain.apply();
-                    file.sourceMap = finalMap;
+                    file.sourceMap = finalMap;*/
                     next(undefined, file);
                 });
         }))
-        .pipe(sourcemaps.write(".", { includeContent: false }))
+        //.pipe(sourcemaps.write(".", { includeContent: false }))
         .pipe(gulp.dest("."));
 });
 

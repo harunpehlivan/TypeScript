@@ -45,7 +45,7 @@ namespace ts {
         NumericLiteral,
         StringLiteral,
         //neater
-        JsxStringLiteral,
+        JsxStringLiteral = StringLiteral, //tODO: just kill then!
         RegularExpressionLiteral,
         NoSubstitutionTemplateLiteral,
         // Pseudo-literals
@@ -859,9 +859,9 @@ namespace ts {
 
     //neater
     // @kind(SyntaxKind.JsxStringLiteral)
-    export interface JsxStringliteral extends LiteralExpression {
-        _jsxStringLiteralBrand: any;
-    }
+    //export interface JsxStringliteral extends LiteralExpression {
+    //    _jsxStringLiteralBrand: any;
+    //}
 
     // Note: 'brands' in our syntax nodes serve to give us a small amount of nominal typing.
     // Consider 'Expression'.  Without the brand, 'Expression' is actually no different

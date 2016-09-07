@@ -1746,7 +1746,7 @@ namespace ts {
                 case CharacterCodes.doubleQuote:
                 case CharacterCodes.singleQuote:
                     tokenValue = scanString(/*allowEscapes*/ false);
-                    return token = SyntaxKind.StringLiteral;
+                    return token = SyntaxKind.JsxStringLiteral;
                 default:
                     return scan();
             }
